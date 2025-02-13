@@ -1,0 +1,7 @@
+<suite name="Playwright API Test Suite">
+    <test name="API Tests">
+        <classes>
+            <class name="org.playwright.ApiTest"/>
+        </classes>
+    </test>
+</suite>
