@@ -9,4 +9,7 @@ public class DataPojo {
     private String title;
     private String body;
     private Integer userId;
+    private String name;
+    private String job;
+
 }

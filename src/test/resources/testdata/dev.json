@@ -1,5 +1,7 @@
 {
   "title": "foo",
   "body": "bar",
-  "userId": 1
+  "userId": 1,
+  "name": "morpheus",
+  "job": "leader"
 }

@@ -13,53 +13,42 @@ import utils.Utils;
 import java.io.File;
 import java.io.IOException;
 
-public class ApiTest {
+public class ApiTest extends BaseTest{
 
     private static final Logger logger = LoggerFactory.getLogger(ApiTest.class);
     private final String testEnvironment = System.getProperty("env", "dev");
     private final String filePath = String.format("src/test/resources/testdata/%s.json", testEnvironment);
-    Playwright playwright;
-    APIRequestContext request;
+
 
     // Read JSON file and convert to Java object
 
 
-    @BeforeClass
-    public void setup() {
-        playwright = Playwright.create();
-        request = playwright.request().newContext(new APIRequest.NewContextOptions()
-                .setBaseURL("https://jsonplaceholder.typicode.com"));
-    }
+
 
     @Test
     public void testGetUsers() {
         logger.info("Initiating get request to /users");
-        APIResponse response = request.get("/users");
+        APIResponse response = request.get("/api/users?page=2");
         Assert.assertEquals(response.status(), 200, "Status code mismatch");
-        logger.info("Get Passed with response {}", response.text());
+        logger.info("List of users {}", response.text());
     }
 
     @Test
-    public void testCreatePost() throws IOException {
-        logger.info("Initiating post request to /posts");
+    public void testCreateUser() throws IOException {
+        logger.info("Initiating post request to /createUser");
         ObjectMapper objectMapper = new ObjectMapper();
 
         DataPojo dataPojo = objectMapper.readValue(new File(filePath), DataPojo.class);
 
-        APIResponse response = request.post("/posts",
+        APIResponse response = request.post("/api/users",
                 RequestOptions.create()
                         .setHeader("Content-Type", "application/json")
-                        .setData(Utils.getBody(dataPojo.getTitle(), dataPojo.getBody(), dataPojo.getUserId()))
+                        .setData(Utils.getCreateUserBody(dataPojo.getName(), dataPojo.getJob()))
         );
 
         Assert.assertEquals(response.status(), 201, "Status code mismatch");
         logger.info("Post Passed with response {}", response.text());
     }
 
-    @AfterClass
-    public void teardown() {
-        logger.info("Closing Playwright and disposing request context...");
-        request.dispose();
-        playwright.close();
-    }
+
 }
