@@ -1,15 +1,13 @@
 pipeline:
-  agent:
-    any
+  agent: any
   stages:
-    - stage: "Checkout Code"
+    - stage: Checkout Code
       steps:
-        - script: |
+        - script: >
             git branch: 'main',
                 credentialsId: 'gittoken',
                 url: 'https://github.com/officialdeepurajagopal/PlaywrightApiFramework.git'
-
-    - stage: "Build and Test"
+    - stage: Build and Test
       steps:
         - script: |
             sh 'mvn clean test'
