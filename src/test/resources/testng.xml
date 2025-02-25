@@ -1,4 +1,8 @@
 <suite name="Playwright API Test Suite">
+    <listeners>
+        <listener class-name="org.testng.reporters.EmailableReporter"/>
+        <listener class-name="org.testng.reporters.XMLReporter"/>
+    </listeners>
     <test name="API Tests">
         <classes>
             <class name="org.playwright.ApiTest"/>
